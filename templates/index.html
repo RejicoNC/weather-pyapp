@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Météo à Nouméa</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      padding: 2rem;
+    }
+    .weather-icon {
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  {% if icon_url %}
+    <img class="weather-icon" src="{{ icon_url }}" alt="Icône météo">
+  {% endif %}
+  <h1>Météo à Nouméa</h1>
+  <p>Température actuelle : <strong>{{ temperature }}°C</strong></p>
+</body>
+</html>
+
