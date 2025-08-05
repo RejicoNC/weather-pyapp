@@ -4,22 +4,159 @@
   <meta charset="UTF-8">
   <title>Météo à Nouméa</title>
   <style>
-    body {
-      text-align: center;
-      font-family: sans-serif;
-      padding: 2rem;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74b9ff 0%, #0984e3 50%, #6c5ce7 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    
+    .weather-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      animation: fadeIn 1s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      letter-spacing: 1px;
+    }
+    
     .weather-icon {
-      width: 100px;
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      transition: transform 0.3s ease;
+    }
+    
+    .weather-icon:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+    
+    .temperature {
+      font-size: 1.4rem;
+      font-weight: 400;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 1.5rem 2rem;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+    
+    .temperature:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+    
+    .temperature strong {
+      font-size: 2.2rem;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+    }
+    
+    /* Animation pour les éléments */
+    .weather-icon, h1, .temperature {
+      animation: slideIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .weather-icon {
+      animation-delay: 0.2s;
+    }
+    
+    h1 {
+      animation-delay: 0.4s;
+    }
+    
+    .temperature {
+      animation-delay: 0.6s;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive design */
+    @media (max-width: 480px) {
+      .weather-container {
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .weather-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1.5rem;
+      }
+      
+      .temperature {
+        font-size: 1.2rem;
+        padding: 1.2rem 1.5rem;
+      }
+      
+      .temperature strong {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 <body>
-  {% if icon_url %}
-    <img class="weather-icon" src="{{ icon_url }}" alt="Icône météo">
-  {% endif %}
-  <h1>Météo à Nouméa</h1>
-  <p>Température actuelle : <strong>{{ temperature }}°C</strong></p>
+  <div class="weather-container">
+    {% if icon_url %}
+      <img class="weather-icon" src="{{ icon_url }}" alt="Icône météo">
+    {% endif %}
+    <h1>Météo à Nouméa</h1>
+    <div class="temperature">
+      Température actuelle : <strong>{{ temperature }}°C</strong>
+    </div>
+  </div>
 </body>
 </html>
 
