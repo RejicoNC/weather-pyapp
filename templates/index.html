@@ -145,6 +145,64 @@
         font-size: 1.8rem;
       }
     }
+    
+    /* Wind badge styles */
+    .wind-row {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .wind-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      backdrop-filter: blur(4px);
+    }
+
+    .wind-arrow {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 16px solid rgba(255,255,255,0.95);
+      transform-origin: 50% 50%;
+      transition: transform 0.3s ease;
+    }
+
+    .wind-info {
+      text-align: left;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .wind-speed {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .wind-dir {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 0.1rem;
+    }
+
+    .wind-beaufort {
+      margin-top: 0.35rem;
+      font-size: 0.8rem;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 480px) {
+      .wind-badge { padding: 0.5rem 0.8rem; }
+      .wind-arrow { border-left-width:8px; border-right-width:8px; border-bottom-width:12px; }
+      .wind-speed { font-size: 0.95rem; }
+    }
   </style>
 </head>
 <body>
@@ -156,6 +214,38 @@
     <div class="temperature">
       Température actuelle : <strong>{{ temperature }}°C</strong>
     </div>
+
+    <div class="wind-row">
+      <div class="wind-badge">
+  <div class="wind-arrow" data-angle="{{ wind_dir_deg|default(0) }}"></div>
+        <div class="wind-info">
+          {% if wind_kmh %}
+            <div class="wind-speed">{{ wind_kmh }} km/h</div>
+          {% else %}
+            <div class="wind-speed">N/A</div>
+          {% endif %}
+          <div class="wind-dir">{{ wind_dir_name or "-" }}</div>
+          {% if wind_beaufort is not none %}
+            <div class="wind-beaufort">Beaufort: <strong>{{ wind_beaufort }}</strong> — <em>{{ wind_beaufort_name }}</em></div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  <div class="script-area">
+    <script>
+      // Apply wind arrow rotation from data-angle to avoid inline template parsing issues
+      (function(){
+        try {
+          var arrow = document.querySelector('.wind-arrow');
+          if (!arrow) return;
+          var angle = parseFloat(arrow.getAttribute('data-angle')) || 0;
+          arrow.style.transform = 'rotate(' + angle + 'deg)';
+        } catch (e) {
+          // fail silently
+        }
+      })();
+    </script>
   </div>
 </body>
 </html>
